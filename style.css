@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  /* color */
+  --background: linear-gradient(260deg, #b75d62, #754d4f);
+  --shadow-light: hsla(0, 0%, 0%, 0.1);
+  --shadow: hsla(0, 0%, 0%, 0.5);
+  --light: hsl(0, 0%, 100%);
+  --text: hsl(0, 0%, 26%);
+  /* font-family: "Inter", sans-serif; */
+  /* font-family: "JetBrains Mono", monospace; */
+  /* font-family: "Montserrat", sans-serif; */
+  /* font-family: "Nunito", sans-serif; */
+  /* font-family: "Poppins", sans-serif; */
+  /* font-family: "Roboto", sans-serif; */
+  font-family: "Rubik", sans-serif;
+  /* font-family: "Space Grotesk", sans-serif; */
+  /* font-family: 'Space Mono', monospace; */
+  /* font-family: 'Trispace', sans-serif; */
+  /* font-family: "Work Sans", sans-serif; */
+}
+
+body {
+  background: var(--background);
+}
+
+nav {
+  min-height: 10vh;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 15%;
+}
+.logo {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+}
+nav img {
+  transform: scale(0.7);
+}
+
+/* main section */
+.showcase {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 90vh;
+  padding: 0rem 15% 0rem 15%; /* top, right, bottom, left */
+  overflow: hidden;
+  position: absolute; /* absolutely relative to default body */
+}
+
+.image-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 80vh;
+  z-index: 2;
+  flex: 1;
+}
+.image-container img {
+  width: 80%;
+}
+
+.showcase-text {
+  flex: 1;
+  color: white;
+  padding-bottom: 10rem;
+}
+.showcase-title {
+  font-size: 2rem;
+  /* font-size: 3.1rem; */
+}
+.showcase-subtitle {
+  font-size: 1rem;
+  padding: 3rem 0rem;
+  font-weight: 400;
+}
+.showcase-button {
+  padding: 0.5rem 2rem;
+  border: none;
+  color: black;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: "Poppins";
+}
+.showcase-arrow {
+  position: absolute;
+  right: 15%;
+  bottom: 10%;
+  transform: scale(0.6);
+}
+
+/* overlay bubbles */
+.circle {
+  position: absolute;
+}
+.circle-1 {
+  left: -3%;
+  bottom: -3%;
+  transform: scale(2);
+}
+.circle-2 {
+  left: 35%;
+  bottom: 10%;
+}
+.circle-3 {
+  top: 15%;
+  left: 20%;
+  transform: scale(1.5);
+}
