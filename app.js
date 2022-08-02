@@ -14,17 +14,27 @@ function leaveAnimation(current, done) {
   return (
     leaveTL.fromTo(
       arrow,
-      { opacity: 1, y: 0 },
-      { opacity: 0, y: 50, onComplete: done }
+      { opacity: 1, y: "0%" },
+      { opacity: 0, y: "50%", onComplete: done }
     ),
-    leaveTL.fromTo(product, { opacity: 1, y: 0 }, { opacity: 0, y: 100 }, "<"),
-    leaveTL.fromTo(text, { opacity: 1, y: 0 }, { opacity: 0, y: 100 }, "<"),
+    leaveTL.fromTo(
+      product,
+      { opacity: 1, y: "0%" },
+      { opacity: 0, y: "100%" },
+      "<"
+    ),
+    leaveTL.fromTo(
+      text,
+      { opacity: 1, y: "0%" },
+      { opacity: 0, y: "100%" },
+      "<"
+    ),
     leaveTL.fromTo(
       circles,
-      { opacity: 1, y: 0 },
+      { opacity: 1, y: "0%" },
       {
         opacity: 0,
-        y: -200,
+        y: "-200%",
         stagger: 0.15,
         duration: 1,
         ease: "back.out(1.7)",
@@ -42,16 +52,32 @@ function enterAnimation(next, done, gradient) {
   return (
     enterTL.fromTo(
       arrow,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, onComplete: done }
+      { opacity: 0, y: "50%" },
+      { opacity: 1, y: "0%", onComplete: done }
     ),
     enterTL.to("body", { background: gradient }, "<"),
-    enterTL.fromTo(product, { opacity: 0, y: -100 }, { opacity: 1, y: 0 }, "<"),
-    enterTL.fromTo(text, { opacity: 0, y: 100 }, { opacity: 1, y: 0 }, "<"),
+    enterTL.fromTo(
+      product,
+      { opacity: 0, y: "-100%" },
+      { opacity: 1, y: "0%" },
+      "<"
+    ),
+    enterTL.fromTo(
+      text,
+      { opacity: 0, y: "100%" },
+      { opacity: 1, y: "0%" },
+      "<"
+    ),
     enterTL.fromTo(
       circles,
-      { opacity: 0, y: -200 },
-      { opacity: 1, y: 0, stagger: 0.15, duration: 1, ease: "back.out(1.7)" },
+      { opacity: 0, y: "-200%" },
+      {
+        opacity: 1,
+        y: "0%",
+        stagger: 0.15,
+        duration: 1,
+        ease: "back.out(1.7)",
+      },
       "<"
     )
   );
@@ -66,6 +92,18 @@ function getGradient(name) {
     case "hat":
       return `linear-gradient(260deg, #b27a5c, #7f5450)`;
   }
+}
+
+function productEnterAnimation(next, done) {
+  enterTL.fromTo(next, { y: "100%" }, { y: "0%" });
+  enterTL.fromTo(
+    ".card",
+    { opacity: 0, y: "50%" },
+    { opacity: 1, y: "0%", stagger: 0.1, onComplete: done }
+  );
+}
+function productLeaveAnimation(current, done) {
+  leaveTL.fromTo(current, { y: "0%" }, { y: "100%", onComplete: done });
 }
 
 // STEP 1# CONFIGURE YOUR MARKUP
@@ -116,13 +154,20 @@ function getGradient(name) {
   mainly use this "namespace" for Transition rules and Views.
 */
 
-// STEP 2# BASIC TRANSITION / RUN FUNCTIONS
+// STEP 2# TRANSITION / RUN FUNCTIONS
 barba.init({
   preventRunning: true,
   transitions: [
-    //showcase transitions
+    // showcase page transitions
     {
       name: "default",
+      once(data) {
+        let done = this.async();
+        let { container, namespace } = data.next;
+        let gradient = getGradient(namespace);
+        gsap.set("body", { background: gradient });
+        enterAnimation(container, done, gradient);
+      },
       leave(data) {
         // create your stunning leave animation here:
         // console.log("current container", data.current.container);
@@ -137,6 +182,28 @@ barba.init({
         let { container, namespace } = data.next;
         let gradient = getGradient(namespace);
         enterAnimation(container, done, gradient);
+      },
+    },
+    // product page transitions
+    {
+      name: "product-transition",
+      sync: true,
+      from: { namespace: ["handbag", "product"] },
+      to: { namespace: ["product", "handbag"] },
+      enter(data) {
+        // create your amazing enter animation here:
+        // console.log("next container:", data.next.container);
+        let done = this.async();
+        let { container, namespace } = data.next;
+        let gradient = getGradient(namespace);
+        productEnterAnimation(container, done);
+      },
+      leave(data) {
+        // create your stunning leave animation here:
+        // console.log("current container", data.current.container);
+        let done = this.async();
+        let { container, namespace } = data.current;
+        productLeaveAnimation(container, done);
       },
     },
   ],
